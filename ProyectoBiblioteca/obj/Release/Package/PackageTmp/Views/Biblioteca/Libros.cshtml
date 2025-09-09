@@ -1,0 +1,999 @@
+﻿@{
+    ViewBag.Title = "Libros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-naranja-claro">
+        <h6 class="m-0 font-weight-bold text-white">Lista de solicitudes</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-naranja-claro btn-sm" type="button" onclick="abrirModal(null)">Crear Nuevo</button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tabla" style="width:100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Solicitud</th>
+                                <th>Usuario</th>
+                                <th>Area</th>
+                                <th>Tipo de cuadrilla</th>
+                                <th>Partner</th>
+                                <th>Fecha de Ingreso</th>
+                                <th>Dni Lider</th>
+                                <!--<th>Dni Opcional</th>-->
+                                <th>Nombre Lider</th>
+                                <!--<th>Nombre Opcional</th>-->
+                                <!--<th>Celular Lider</th>-->
+                                <!--<th>Celular Opcional</th>-->
+                                <!--<th>Correo Lider</th-->
+                                <!--<th>Correo Opcional</th>-->
+                                <th>Modelo Vehiculo</th>
+                                <th>Placa Vehiculo</th>
+                                <th>SCTR</th>
+                                <th>Estado</th>
+                                <th>Mensaje</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-naranja-claro text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Solicitud</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="txtid" type="hidden" value="0" />
+                <form id="formNivel">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                <label for="cboasunto" ">Tipo de Solicitud</label>
+                                <select id="cboasunto" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cboarea">Area</label>
+                                <select id="cboarea" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cbotipocuadrilla">Tipo Cuadrilla</label>
+                                <select id="cbotipocuadrilla" class="form-control" required></select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtubicacion">Fecha de Ingreso</label>
+                                <input type="date" class="form-control required" id="txtubicacion" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <!--CODIGO NUEVO: INGRESO DE ZONA-->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cbozona" ">ZONA</label>
+                                <select id="cbozona" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <!--CODIGO NUEVO: TIPO DE DOCUMENTO TECNICO LIDER-->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cbotdocumentotl">Tipo de documento - Tecnico Lider</label>
+                                <select id="cbotdocumentotl" class="form-control" required>
+                                    <option value="1">Documento de Identidad</option>
+                                    <option value="2">Carnet de Extranjeria</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--CODIGO NUEVO: TIPO DE DOCUMENTO TECNICO APOYO-->
+                        <div class="col-sm-6" style="display:none;">
+                            <div class="form-group">
+                                <label for="cbotdocumentota">Tipo de documento - Tecnico Apoyo</label>
+                                <select id="cbotdocumentota" class="form-control" required>
+                                    <option value="1">Documento de Identidad</option>
+                                    <option value="2">Carnet de Extranjeria</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!---CODIGO DE LOS CAMPOS SIGUIENTES-->
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtdnil">Número de Documento - T1</label>
+                                <input type="text" class="form-control required" id="txtdnil" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" style="display:none;">
+                            <div class="form-group">
+                                <label for="txtdnio">Número de Documento - T2</label>
+                                <input type="text" class="form-control required" id="txtdnio" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtnombrel">Nombre y Apellido - Tecnico 1</label>
+                                <input type="text" class="form-control required" id="txtnombrel" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" style="display:none;">
+                            <div class="form-group">
+                                <label for="txtnombreo">Nombre y Apellido- Tecnico 2</label>
+                                <input type="text" class="form-control required" id="txtnombreo" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtcelularl">Celular Lider</label>
+                                <input type="text" class="form-control required" id="txtcelularl" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" style="display:none;">
+                            <div class="form-group">
+                                <label for="txtcelularo">Celular Apoyo</label>
+                                <input type="text" class="form-control required" id="txtcelularo" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtcorreol">Corrre Lider</label>
+                                <input type="text" class="form-control required" id="txtcorreol" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" style="display:none;">
+                            <div class="form-group">
+                                <label for="txtcorreoo">Correo Apoyo</label>
+                                <input type="text" class="form-control required" id="txtcorreoo" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtmodelov">Modelo de vehiculo</label>
+                                <input type="text" class="form-control required" id="txtmodelov" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtplaca">Placa </label>
+                                <input type="text" class="form-control required" id="txtplaca" name="descripcion" autocomplete="off" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cbosctr">SCTR:</label>
+                                <select id="cbosctr" class="form-control" required>
+                                    <option value="1">SI</option>
+                                    <option value="0">NO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--EVIDENCIA : DOCUMENTO DE IDENTIDAD T1-->
+
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencias del documento de identidad</h5>
+                            <br />
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filelibro" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">
+                            <img id="imglibro" height="192" width="190" class="border border-dark" />
+                        </div>-->
+                        <!---EVIDENCIA: DOCUMENTO DE IDENTIDAD T2-->
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencias del documento de identidad - Técnico Apoyo</h5>
+
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filedapoyo" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+                        <!---EVIDENCIA: VEHICULO OPERATIVO-->
+
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencias del Vehiculo operativo</h5>
+
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filevehiculo" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+                        <!---EVIDENCIA: SOAT-->
+
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencia Soat</h5>
+
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filesoat" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+                        <!---EVIDENCIA: LICENCIA DE CONDUCIR-->
+
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencia Licencia de Conducir</h5>
+
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filelconducir" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+                        <!---EVIDENCIA: NUMERO DE PÓLIZA-->
+
+                        <div class="col-sm-12" style="display:none;">
+                            <hr class="my-4" style="border-top: 2px solid #444;" />
+                            <h5 class="text-center fw-bold">Evidencia de la Póliza</h5>
+
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" id="filenpoliza" onchange="readURL(this);">
+                            </div>
+                        </div>
+
+
+
+                        <!--<div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cboEstado">Estado:</label>
+                                <select id="cboEstado" class="form-control">
+                                    <option value="1">Aprobado</option>
+                                    <option value="0">No Aprobado</option>
+                                </select>
+                            </div>
+                        </div>-->
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ingresar Nombre Cuadrilla -->
+<div class="modal fade" id="modalCuadrilla" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-naranja-claro text-white">
+                <h5 class="modal-title">Ingresar nombre de la cuadrilla creada en Phoenix</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="txtNombreCuadrilla" class="form-control" placeholder="Nombre de la cuadrilla">
+                <input type="hidden" id="hiddenIdSolicitud" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnGuardarCuadrilla" class="btn btn-naranja-claro">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .bg-naranja-claro {
+        background-color: #f5b041 !important; /* Naranja claro */
+    }
+</style>
+
+<style>
+    .btn-naranja-claro {
+        background-color: #f5b041; /* naranja suave */
+        color: white;
+        border: none;
+    }
+
+        .btn-naranja-claro:hover {
+            background-color: #eb984e; /* un poco más fuerte al pasar el mouse */
+            color: white;
+        }
+</style>
+
+
+
+@section scripts{
+
+
+
+
+    <!-- Mensaje de alerta -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        var tabladata;
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imglibro')
+                        .attr('src', e.target.result)
+                        .width(190)
+                        .height(192);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+
+        $(document).ready(function () {
+
+            tabladata.ajax.reload();
+
+
+        });
+
+
+
+
+        $(document).ready(function () {
+            jQuery.ajax({
+                url: '@Url.Action("ListarTipocuadrilla", "Biblioteca")',
+                type: "GET",
+                data: null,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.IdTipocuadrilla }).text(value.Descripcion).appendTo("#cbotipocuadrilla");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+            jQuery.ajax({
+                url: '@Url.Action("ListarTiposolicitud", "Biblioteca")',
+                type: "GET",
+                data: null,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.IdTiposolicitud }).text(value.Descripcion).appendTo("#cboasunto");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+
+
+            jQuery.ajax({
+                url: '@Url.Action("ListarArea", "Biblioteca")',
+                type: "GET",
+                data: null,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.IdArea }).text(value.Descripcion).appendTo("#cboarea");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+
+
+            jQuery.ajax({
+                url: '@Url.Action("ListarZona", "Biblioteca")',
+                type: "GET",
+                data: null,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.IdZona }).text(value.Descripcion).appendTo("#cbozona");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+
+
+            $(document).ready(function () {
+                if ($.fn.DataTable.isDataTable('#tabla')) {
+                    $('#tabla').DataTable().ajax.reload();
+                }
+            });
+
+            tabladata = $('#tabla').DataTable({
+                responsive: true,
+                "destroy": true,
+                "ajax": {
+                    "url": '@Url.Action("ListarLibro", "Biblioteca")',
+                    "type": "GET",
+                    "catche":false,
+                    "datatype": "json",
+                    "dataSrc": function (json) {
+                        console.log("Datos recibidos desde el servidor:", json); // Aquí ves el objeto completo
+                        if (json && json.data) {
+                            return json.data;
+                        } else {
+                            console.error("formato de datos inesperados", json);
+                            return [];
+                        }
+
+                    }
+                },
+                "columns": [
+                    {
+                        "data": "oTsolicitud", render: function (data) {
+                            return data ? data.Descripcion : '';
+                        }
+                    },
+                    { "data": "UsuarioRegistro" },
+                    {
+                        "data": "oArea", render: function (data) {
+                            return data ? data.Descripcion : '';
+                        }
+                    },
+                    {
+                        "data": "oTipocuadrilla", render: function (data) {
+                            return data ? data.Descripcion : '';
+                        }
+                    },
+
+                    {
+                        "data": "oZona", render: function (data) {
+                            return data ? data.Descripcion : '';
+                        }
+                    },
+                    { "data": "Ubicacion" },
+
+                    { "data": "DniL" },
+                    //{ "data": "DniO" },
+                    { "data": "NombreL" },
+                    //{ "data": "NombreO" },
+                    //{ "data": "CelularL" },
+                    //{ "data": "CelularO" },
+                    //{ "data": "CorreoL" },
+                    //{ "data": "CorreoO" },
+                    { "data": "ModeloV" },
+                    { "data": "PlacaV" },
+                    {
+                        "data": "SCTR", "render": function (data) {
+                            if (data) {
+                                return '<span class="badge badge-success p-2">SI</span>'
+                            } else {
+                                return '<span class="badge badge-danger p-2">NO</span>'
+                            }
+                        }
+                    },
+                    {
+                        "data": "Estado", "render": function (data) {
+                            if (data === "Aprobado") {
+                                return '<span class="badge badge-success p-2">Aprobado</span>'
+                            } else if (data == "Creado") {
+                                return '<span class="badge badge-primary p-2">Creado</span>';
+                            } else {
+                                return '<span class="badge badge-danger p-2">No aprobado</span>';
+                            }
+                        }
+                    },
+                    { "data": "MensajeValidacion" },
+                    {
+                        "data": "IdSolicitud", "render": function (data, type, row, meta) {
+
+                            let botones = "";
+
+                            if (tipoUsuario == "2") {
+                                // Para tipo 2, solo mostrar Editar cuando esté "No aprobado"
+                                if (row.Estado === "No aprobado") {
+                                    botones += $("<button>").addClass("btn btn-primary btn-editar btn-sm").append(
+                                        $("<i>").addClass("fas fa-pen")
+                                    ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+                                }
+                            }
+                            else {
+                                // 🔹 Usuarios 1 y 3 mantienen la lógica normal
+                                if (row.Estado === "No aprobado") {
+                                    botones += $("<button>").addClass("btn btn-primary btn-editar btn-sm").append(
+                                        $("<i>").addClass("fas fa-pen")
+                                    ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+                                }
+
+                                if (row.Estado === "Aprobado") {
+                                    botones += $("<button>").addClass("btn btn-success btn-check btn-sm ml-2").append(
+                                        $("<i>").addClass("fas fa-check")
+                                    ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+                                }
+
+                                botones += $("<button>").addClass("btn btn-danger btn-eliminar btn-sm ml-2").append(
+                                    $("<i>").addClass("fas fa-trash")
+                                ).attr({ "data-informacion": JSON.stringify(row) })[0].outerHTML;
+                            }
+
+                            return botones;
+
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+
+                ],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        });
+
+
+
+
+        $(document).on('click', '.btn-editar', function (event) {
+            var json = $(this).data("informacion")
+
+            abrirModal(json)
+        });
+
+        // Abrir modal al presionar el botón check
+        $(document).on("click", ".btn-check", function () {
+            let data = $(this).data("informacion");
+            $("#hiddenIdSolicitud").val(data.IdSolicitud); // Guardamos el Id de la solicitud
+            $("#txtNombreCuadrilla").val(""); // Limpiamos el campo
+            $("#modalCuadrilla").modal("show");
+        });
+        // Guardar el nombre de la cuadrilla
+        $("#btnGuardarCuadrilla").on("click", function () {
+            let idSolicitud = $("#hiddenIdSolicitud").val();
+            let nombreCuadrilla = $("#txtNombreCuadrilla").val().trim();
+
+            if (nombreCuadrilla === "") {
+                Swal.fire("Atención", "Debes ingresar el nombre de la cuadrilla", "warning");
+                return;
+            }
+
+            $.ajax({
+                url: '/Biblioteca/GuardarNombreCuadrilla', // Cambia por tu ruta
+                type: "POST",
+                data: { idSolicitud: idSolicitud, nombreCuadrilla: nombreCuadrilla },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire("Éxito", "Nombre de cuadrilla guardado correctamente", "success");
+                        $("#modalCuadrilla").modal("hide");
+                        tabla.ajax.reload(null, false); // 🔹 Mantiene la página y filtros actuales
+
+                    } else {
+                        Swal.fire("Error", response.message, "error");
+                    }
+                }
+            });
+        });
+
+        function abrirModal(json) {
+            $("#txtid").val(0);
+            $("#imglibro").attr({ "src": "" });
+
+            // 🔹 Limpiar TODOS los inputs file del formulario
+            $("#formNivel").find("input[type='file']").val("");
+
+            $("#filelibro").val("");
+            $("#cboasunto").val($("#cboasunto option:first").val());
+            $("#cboarea").val($("#cboarea option:first").val());
+            $("#cbotipocuadrilla").val($("#cbotipocuadrilla option:first").val());
+            $("#cbozona").val($("#cbozona option:first").val());
+            $("#txtubicacion").val("");
+            $("#cbotdocumentotl").val(1);
+            $("#cbotdocumentota").val(1);
+            $("#txtdnil").val("");
+            $("#txtdnio").val("");
+            $("#txtnombrel").val("");
+            $("#txtnombreo").val("");
+            $("#txtcelularl").val("");
+            $("#txtcelularo").val("");
+            $("#txtcorreol").val("");
+            $("#txtcorreoo").val("");
+            $("#txtmodelov").val("");
+            $("#txtplaca").val("");
+            $("#cbosctr").val(1);
+            $("#cboEstado").val(1);
+
+            if (json != null) {
+
+                $("#txtid").val(json.IdSolicitud);
+                $("#imglibro").attr({ "src": "data:image/" + json.extension + ";base64," + json.base64 });
+                $("#cboasunto").val(json.oTsolicitud.IdTiposolicitud);
+                $("#cboarea").val(json.oArea.IdArea);
+                $("#cbotipocuadrilla").val(json.oTipocuadrilla.IdTipocuadrilla)
+                $("#cbozona").val(json.oZona.IdZona)
+                $("#txtubicacion").val(json.Ubicacion);
+                $("#cbotdocumentotl").val(json.TD1 == true ? 1: 0);
+                $("#cbotdocumentota").val(json.TD2 == true ? 1: 0);
+                $("#txtdnil").val(json.DniL);
+                $("#txtdnio").val(json.DniO);
+                $("#txtnombrel").val(json.NombreL);
+                $("#txtnombreo").val(json.NombreO);
+                $("#txtcelularl").val(json.CelularL);
+                $("#txtcelularo").val(json.CelularO);
+                $("#txtcorreol").val(json.CorreoL);
+                $("#txtcorreoo").val(json.CorreoO);
+                $("#txtmodelov").val(json.ModeloV);
+                $("#txtplaca").val(json.PlacaV);
+                $("#cbosctr").val(json.SCTR == true ? 1 : 0);
+                $("#cboEstado").val(json.Estado == true ? 1 : 0);
+            }
+
+            $('#FormModal').modal('show');
+        }
+
+        $(document).on('click', '.btn-eliminar', function (event) {
+            var json = $(this).data("informacion")
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                url: '@Url.Action("EliminarLibro", "Biblioteca")',
+                type: "POST",
+                data: JSON.stringify({ id: json.IdSolicitud }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Eliminado',
+                            text: 'El registro fue eliminado correctamente.',
+                            confirmButtonText: 'Aceptar'
+                        });
+                        tabladata.ajax.reload();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo eliminar el registro.',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error inesperado',
+                                text: 'Ocurrió un error al intentar eliminar.',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    });
+                }
+            });
+
+        });
+
+        function Guardar() {
+
+            // Validar campos obligatorios
+            let camposObligatorios = [
+                { id: "#cboasunto", nombre: "Tipo de Solicitud" },
+                { id: "#cboarea", nombre: "Área" },
+                { id: "#cbotipocuadrilla", nombre: "Tipo de cuadrilla" },
+                { id: "#cbozona", nombre: "Zona" },
+                { id: "#txtubicacion", nombre: "Ubicación" },
+                { id: "#txtdnil", nombre: "DNI Líder" },
+                { id: "#txtdnio", nombre: "DNI Tecnico Apoyo" },
+                { id: "#txtnombrel", nombre: "Nombre Líder" },
+                { id: "#txtnombreo", nombre: "Nombre tecnico Apoyo" },
+                { id: "#txtcelularl", nombre: "Celular Líder" },
+                { id: "#txtcelularo", nombre: "Celular tecnico Apoyo" },
+                { id: "#txtcorreol", nombre: "Correo Líder" },
+                { id: "#txtcorreoo", nombre: "Correo tecnico Apoyo" },
+                { id: "#txtmodelov", nombre: "Modelo Vehículo" },
+                { id: "#txtplaca", nombre: "Placa Vehículo" }
+            ];
+
+            let camposVacios = [];
+
+            camposObligatorios.forEach(function (campo) {
+                let $campo = $(campo.id);
+
+                // 🔹 Solo validar si el campo está visible
+                if ($campo.is(":visible")) {
+                    if ($campo.val().trim() === "" || $campo.val() === "0") {
+                        camposVacios.push(campo.nombre);
+                    }
+                }
+            });
+
+            if (camposVacios.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campos obligatorios',
+                    html: "Debe completar los siguientes campos:<br><b>" + camposVacios.join("<br>") + "</b>",
+                    confirmButtonText: 'Aceptar'
+                });
+                return; // Detiene el guardado
+            }
+
+            // Celulares (solo validar los visibles)
+            let celularRegex = /^[0-9]{9}$/;
+            if ($("#txtcelularl").is(":visible") && !celularRegex.test($("#txtcelularl").val().trim())) {
+                Swal.fire("Error", "El celular del Líder debe tener 9 dígitos", "error");
+                return;
+            }
+            if ($("#txtcelularo").is(":visible") && !celularRegex.test($("#txtcelularo").val().trim())) {
+                Swal.fire("Error", "El celular del Técnico Apoyo debe tener 9 dígitos", "error");
+                return;
+            }
+
+            // Correos (solo validar los visibles)
+            let emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+
+            if ($("#txtcorreol").is(":visible") && !emailRegex.test($("#txtcorreol").val().trim())) {
+                Swal.fire("Error", "El correo del Líder no es válido", "error");
+                return;
+            }
+            if ($("#txtcorreoo").is(":visible") && !emailRegex.test($("#txtcorreoo").val().trim())) {
+                Swal.fire("Error", "El correo del Técnico Apoyo no es válido", "error");
+                return;
+            }
+
+            // --- Validación DNI / CE dinámico ---
+            if ($("#txtdnil").is(":visible")) {
+                let tipoDocL = $("#cbotdocumentotl").val();
+                let dniL = $("#txtdnil").val().trim();
+
+                if (tipoDocL === "1" && dniL.length !== 8) {
+                    Swal.fire("Error", "El DNI del Líder debe tener 8 dígitos", "error");
+                    return;
+                }
+                if (tipoDocL === "2" && dniL.length !== 9) {
+                    Swal.fire("Error", "El Carnet de Extranjería del Líder debe tener 9 dígitos", "error");
+                    return;
+                }
+            }
+
+            if ($("#txtdnio").is(":visible")) {
+                let tipoDocO = $("#cbotdocumentota").val();
+                let dniO = $("#txtdnio").val().trim();
+
+                if (tipoDocO === "1" && dniO.length !== 8) {
+                    Swal.fire("Error", "El DNI del Técnico Apoyo debe tener 8 dígitos", "error");
+                    return;
+                }
+                if (tipoDocO === "2" && dniO.length !== 9) {
+                    Swal.fire("Error", "El Carnet de Extranjería del Técnico Apoyo debe tener 9 dígitos", "error");
+                    return;
+                }
+            }
+
+            //codigo nuevo
+            var ImagenSeleccionada = ($("#filelibro"))[0].files[0];
+
+
+            var objeto = {
+                IdSolicitud: $("#txtid").val(),
+                oTsolicitud: { IdTiposolicitud: $("#cboasunto option:selected").val() },
+                oArea: { IdArea: $("#cboarea option:selected").val() },
+                oTipocuadrilla: { IdTipocuadrilla: $("#cbotipocuadrilla option:selected").val() },
+                oZona: { IdZona: $("#cbozona option:selected").val() },
+                Ubicacion: $("#txtubicacion").val(),
+                TD1: $("#cbotdocumentotl").val() == 1 ? true : false,
+                TD2: $("#cbotdocumentota").val() == 1 ? true : false,
+                DniL: $("#txtdnil").val(),
+                DniO: $("#txtdnio").val(),
+                NombreL: $("#txtnombrel").val(),
+                NombreO: $("#txtnombreo").val(),
+                CelularL: $("#txtcelularl").val(),
+                CelularO: $("#txtcelularo").val(),
+                CorreoL: $("#txtcorreol").val(),
+                CorreoO: $("#txtcorreoo").val(),
+                ModeloV: $("#txtmodelov").val(),
+                PlacaV: $("#txtplaca").val(),
+                SCTR: parseInt($("#cbosctr").val()) == 1 ? true : false,
+                Estado: parseInt($("#cboEstado").val()) == 1 ? true : false
+            };
+            console.log("Objeto", objeto);
+
+            var request = new FormData();
+            //codigo nuevo
+            request.append("objeto", JSON.stringify(objeto));
+            console.log(" Requisito", request);
+
+            // 🔹 Agregar todos los archivos
+            request.append("filelibro", $("#filelibro")[0].files[0]);
+            request.append("filedapoyo", $("#filedapoyo")[0].files[0]);
+            request.append("filevehiculo", $("#filevehiculo")[0].files[0]);
+            request.append("filesoat", $("#filesoat")[0].files[0]);
+            request.append("filelconducir", $("#filelconducir")[0].files[0]);
+            request.append("filenpoliza", $("#filenpoliza")[0].files[0]);
+
+            jQuery.ajax({
+                url: '@Url.Action("GuardarLibro", "Biblioteca")',
+                type: "POST",
+                data: request,
+                processData: false,
+                contentType : false,
+                success: function (data) {
+                    console.log("✅ SUCCESS", data);  // 👀 LOG
+                    if (data.resultado) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: data.mensaje || "Solicitud registrada correctamente.",
+                            confirmButtonText: 'Aceptar'
+                        }).then(() => {
+                            $('#FormModal').modal('hide');
+                            tabladata.ajax.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: "No se pudo guardar los cambios",
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("❌ ERROR en AJAX", error);   // 👀 LOG
+                    console.log(xhr.responseText);             // 👀 VER DETALLE DEL SERVER
+                    Swal.fire("Error", "Hubo un problema al guardar", "error");
+                },
+                beforeSend: function () {
+
+                },
+            });
+
+        }
+
+        $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+            });
+        };
+
+        $("#txtejemplares").inputFilter(function (value) {
+            return /^-?\d*$/.test(value);
+        });
+
+
+        $(function () {
+            const $grupotdocumentoo = $("#cbotdocumentota").closest(".col-sm-6");
+            const $grupodnio = $("#txtdnio").closest(".col-sm-6");
+            const $gruponombreo = $("#txtnombreo").closest(".col-sm-6");
+            const $grupocelularo = $("#txtcelularo").closest(".col-sm-6");
+            const $grupocorreoo = $("#txtcorreoo").closest(".col-sm-6");
+
+            //DATOS DE LAS EVIDENCIAS
+            const $grupodidentidadl = $("#filelibro").closest(".col-sm-12");
+            const $grupodidentidada = $("#filedapoyo").closest(".col-sm-12");
+            const $grupovehiculo = $("#filevehiculo").closest(".col-sm-12");
+            const $gruposoat = $("#filesoat").closest(".col-sm-12");
+            const $grupoconducir = $("#filelconducir").closest(".col-sm-12");
+            const $grupopoliza = $("#filenpoliza").closest(".col-sm-12");
+
+            function toggleCuadrilla() {
+                const valor = $("#cbotipocuadrilla").val(); // jQuery .val() devuelve string
+                if (valor === "2") {
+                    $grupotdocumentoo.show();
+                    $grupodnio.show();
+                    $gruponombreo.show();
+                    $grupocelularo.show();
+                    $grupocorreoo.show();
+                    $grupodidentidadl.show();
+                    $grupodidentidada.show();
+                    $grupovehiculo.show();
+                    $gruposoat.show();
+                    $grupoconducir.show();
+                    $grupopoliza.show();
+
+                } else if (valor === "3") {
+                    $grupotdocumentoo.hide();
+                    $grupodnio.hide();
+                    $gruponombreo.hide();
+                    $grupocelularo.hide();
+                    $grupocorreoo.hide();
+                    $grupodidentidadl.show();
+                    $grupodidentidada.hide();
+                    $grupovehiculo.show();
+                    $gruposoat.show();
+                    $grupoconducir.show();
+                    $grupopoliza.show();
+                } else {
+                    $grupotdocumentoo.hide();
+                    $grupodnio.hide();
+                    $gruponombreo.hide();
+                    $grupocelularo.hide();
+                    $grupocorreoo.hide();
+                    $grupodidentidadl.show();
+                    $grupodidentidada.hide();
+                    $grupovehiculo.show();
+                    $gruposoat.show();
+                    $grupoconducir.show();
+                    $grupopoliza.show();
+                }
+            }
+
+            $("#cbotipocuadrilla").on("change", toggleCuadrilla);
+            toggleCuadrilla(); // aplicar al cargar
+        });
+
+
+
+    </script>
+
+    <script>
+     var tipoUsuario = '@ViewBag.TipoUsuario';
+    </script>
+}

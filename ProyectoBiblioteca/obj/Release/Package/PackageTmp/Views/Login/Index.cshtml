@@ -1,0 +1,109 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iniciar sesión</title>
+    @Styles.Render("~/Content/css")
+    <style>
+            body {
+                background: linear-gradient(135deg, #f8c471, #f39c12);
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Segoe UI', sans-serif;
+            }
+            .login-container {
+                background-color: white;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                overflow: hidden;
+                max-width: 900px;
+                width: 100%;
+            }
+
+            .login-image {
+                background: url('@Url.Content("~/Imagenes/fotowin.png")') no-repeat center;
+                background-size: cover;
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+            }
+
+            .login-form {
+                padding: 40px;
+            }
+
+            .login-form h2 {
+                color: #34495e;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+
+            .btn-custom {
+                background-color: #f5b041;
+                border: none;
+                color: white;
+            }
+
+                .btn-custom:hover {
+                    background-color: #e67e22;
+                }
+
+            .footer-text {
+                font-size: 13px;
+                color: #555;
+            }
+
+            .alert {
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body >
+    <div class="login-container row no-gutters">
+        <div class="col-md-6 login-image"></div>
+        <div class="col-md-6">
+            <div class="login-form">
+                <div class="text-center">
+                    <h2>Bienvenido</h2>
+                </div>
+
+                <form action="@Url.Action("Index", "Login")" method="post">
+                    <div class="form-group">
+                        <input type="email" name="correo" class="form-control" placeholder="Correo electrónico" value="Konoe@gmail.com" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="clave" class="form-control" placeholder="Contraseña" value="123" required />
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-custom btn-block">Ingresar</button>
+                </form>
+
+                <hr />
+                <div class="text-center footer-text">
+                    &copy; Todos los derechos reservados ·
+                    <a href="https://ouo.io/RK1tRH" target="_blank" class="text-danger font-weight-bold">Open Source - CLICK AQUÍ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
